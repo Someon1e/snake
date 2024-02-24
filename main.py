@@ -1,4 +1,7 @@
 import pygame
+import math
+
+GRID_SIZE_IN_PIXELS = 10
 
 def main():
     pygame.init()
@@ -7,27 +10,44 @@ def main():
     running = True
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
+    direction = ""
+    speed = 0
+
+    delta = 0
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(player_pos.x, player_pos.y, 10, 10), 40)
+        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(player_pos.x, player_pos.y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
-            player_pos.y -= 300 * dt
-        if keys[pygame.K_s]:
-            player_pos.y += 300 * dt
-        if keys[pygame.K_a]:
-            player_pos.x -= 300 * dt
-        if keys[pygame.K_d]:
-            player_pos.x += 300 * dt
+            direction = "y"
+            player_pos.x = math.floor(player_pos.x / GRID_SIZE_IN_PIXELS + 0.5) // 1 * GRID_SIZE_IN_PIXELS
+            speed = -GRID_SIZE_IN_PIXELS
+        elif keys[pygame.K_s]:
+            direction = "y"
+            player_pos.x = math.floor(player_pos.x / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            speed = GRID_SIZE_IN_PIXELS
+        elif keys[pygame.K_a]:
+            direction = "x"
+            player_pos.y = math.floor(player_pos.y / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            speed = -GRID_SIZE_IN_PIXELS
+        elif keys[pygame.K_d]:
+            direction = "x"
+            player_pos.y = math.floor(player_pos.y / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            speed = GRID_SIZE_IN_PIXELS
+
+        if direction == "x":
+            player_pos.x += speed*delta/1000
+        elif direction == "y":
+            player_pos.y += speed*delta/1000
 
         pygame.display.flip()
-
-        dt = clock.tick(60) / 1000
+        delta = clock.tick()
 
     pygame.quit()
 
