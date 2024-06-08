@@ -18,13 +18,19 @@ def main():
 
     delta = 0
 
+    snake_position = []
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(player_pos.x, player_pos.y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS))
+
+        pygame.draw.rect(screen, (0, 125, 0), pygame.Rect(player_pos.x, player_pos.y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS))
+        snake_position.append((snap(player_pos.x, GRID_SIZE_IN_PIXELS), snap(player_pos.y, GRID_SIZE_IN_PIXELS)))
+        for (x, y) in snake_position:
+            pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(x, y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
