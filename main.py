@@ -1,7 +1,7 @@
 import pygame
 import math
 
-GRID_SIZE_IN_PIXELS = 10
+GRID_SIZE_IN_PIXELS = 15
 
 def snap(number, to):
     return math.floor(number / to + 0.5) * to
