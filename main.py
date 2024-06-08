@@ -3,6 +3,9 @@ import math
 
 GRID_SIZE_IN_PIXELS = 10
 
+def snap(number, to):
+    return math.floor(number / to + 0.5) * to
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1280, 720))
@@ -26,19 +29,19 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             direction = "y"
-            player_pos.x = math.floor(player_pos.x / GRID_SIZE_IN_PIXELS + 0.5) // 1 * GRID_SIZE_IN_PIXELS
+            player_pos.x = snap(player_pos.x, GRID_SIZE_IN_PIXELS)
             speed = -GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_s]:
             direction = "y"
-            player_pos.x = math.floor(player_pos.x / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            player_pos.x = snap(player_pos.x, GRID_SIZE_IN_PIXELS)
             speed = GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_a]:
             direction = "x"
-            player_pos.y = math.floor(player_pos.y / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            player_pos.y = snap(player_pos.y, GRID_SIZE_IN_PIXELS)
             speed = -GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_d]:
             direction = "x"
-            player_pos.y = math.floor(player_pos.y / GRID_SIZE_IN_PIXELS + 0.5) * GRID_SIZE_IN_PIXELS
+            player_pos.y = snap(player_pos.y, GRID_SIZE_IN_PIXELS)
             speed = GRID_SIZE_IN_PIXELS
 
         if direction == "x":
