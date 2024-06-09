@@ -8,7 +8,7 @@ def snap(number, to):
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
+    screen = pygame.display.set_mode((GRID_SIZE_IN_PIXELS * 50, GRID_SIZE_IN_PIXELS * 50))
     clock = pygame.time.Clock()
     running = True
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
