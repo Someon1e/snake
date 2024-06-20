@@ -9,6 +9,10 @@ def snap(number, to):
     return math.floor(number / to + 0.5) * to
 
 
+def snap_to_grid(number):
+    return snap(number, GRID_SIZE_IN_PIXELS)
+
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode(
@@ -26,8 +30,8 @@ def main():
     snake_position = []
 
     apple_position = (
-        snap(randint(0, screen.get_width()), GRID_SIZE_IN_PIXELS),
-        snap(randint(0, screen.get_height()), GRID_SIZE_IN_PIXELS),
+        snap_to_grid(randint(0, screen.get_width())),
+        snap_to_grid(randint(0, screen.get_height())),
     )
 
     while running:
@@ -56,8 +60,8 @@ def main():
         )
         snake_position.append(
             (
-                snap(player_pos.x, GRID_SIZE_IN_PIXELS),
-                snap(player_pos.y, GRID_SIZE_IN_PIXELS),
+                snap_to_grid(player_pos.x),
+                snap_to_grid(player_pos.y),
             )
         )
         for x, y in snake_position:
@@ -70,19 +74,19 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             direction = "y"
-            player_pos.x = snap(player_pos.x, GRID_SIZE_IN_PIXELS)
+            player_pos.x = snap_to_grid(player_pos.x)
             speed = -GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_s]:
             direction = "y"
-            player_pos.x = snap(player_pos.x, GRID_SIZE_IN_PIXELS)
+            player_pos.x = snap_to_grid(player_pos.x)
             speed = GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_a]:
             direction = "x"
-            player_pos.y = snap(player_pos.y, GRID_SIZE_IN_PIXELS)
+            player_pos.y = snap_to_grid(player_pos.y)
             speed = -GRID_SIZE_IN_PIXELS
         elif keys[pygame.K_d]:
             direction = "x"
-            player_pos.y = snap(player_pos.y, GRID_SIZE_IN_PIXELS)
+            player_pos.y = snap_to_grid(player_pos.y)
             speed = GRID_SIZE_IN_PIXELS
 
         if direction == "x":
