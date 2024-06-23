@@ -2,25 +2,30 @@ import pygame
 import math
 from random import randint
 
-GRID_SIZE_IN_PIXELS = 15
+DEBUG = True
+
+GRID_SIZE = 50
 
 
 def snap(number, to):
-    return math.floor(number / to + 0.5) * to
+    return math.floor(number / to) * to
 
 
-def snap_to_grid(number):
-    return snap(number, GRID_SIZE_IN_PIXELS)
+def random_square():
+    return randint(0, GRID_SIZE)
 
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode(
-        (GRID_SIZE_IN_PIXELS * 50, GRID_SIZE_IN_PIXELS * 50)
-    )
+    screen = pygame.display.set_mode((15 * GRID_SIZE, 15 * GRID_SIZE), pygame.RESIZABLE)
+    square_pixel_size = min(screen.get_height(), screen.get_width()) / GRID_SIZE
+
+    def snap_to_grid(number):
+        return snap(number, square_pixel_size)
+
     clock = pygame.time.Clock()
     running = True
-    player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+    player_position = {"x": GRID_SIZE / 2, "y": GRID_SIZE / 2}
 
     direction = ""
     speed = 0
@@ -30,69 +35,81 @@ def main():
     snake_position = []
 
     apple_position = (
-        snap_to_grid(randint(0, screen.get_width())),
-        snap_to_grid(randint(0, screen.get_height())),
+        random_square(),
+        random_square(),
     )
 
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.VIDEORESIZE:
+                # There's some code to add back window content here.
+                screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                square_pixel_size = (
+                    min(screen.get_height(), screen.get_width()) / GRID_SIZE
+                )
 
-        screen.fill((0, 0, 0))
+        screen.fill((20, 20, 20))
 
         pygame.draw.rect(
             screen,
             (240, 0, 0),
             pygame.Rect(
-                apple_position[0],
-                apple_position[1],
-                GRID_SIZE_IN_PIXELS,
-                GRID_SIZE_IN_PIXELS,
+                apple_position[0] * square_pixel_size,
+                apple_position[1] * square_pixel_size,
+                square_pixel_size,
+                square_pixel_size,
             ),
         )
-        pygame.draw.rect(
-            screen,
-            (0, 125, 0),
-            pygame.Rect(
-                player_pos.x, player_pos.y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS
-            ),
-        )
+
         snake_position.append(
             (
-                snap_to_grid(player_pos.x),
-                snap_to_grid(player_pos.y),
+                math.floor(player_position["x"]),
+                math.floor(player_position["y"]),
             )
         )
         for x, y in snake_position:
             pygame.draw.rect(
                 screen,
                 (0, 255, 0),
-                pygame.Rect(x, y, GRID_SIZE_IN_PIXELS, GRID_SIZE_IN_PIXELS),
+                pygame.Rect(
+                    x * square_pixel_size,
+                    y * square_pixel_size,
+                    square_pixel_size,
+                    square_pixel_size,
+                ),
+            )
+        if DEBUG:
+            pygame.draw.rect(
+                screen,
+                (0, 125, 0),
+                pygame.Rect(
+                    (player_position["x"] * square_pixel_size),
+                    (player_position["y"] * square_pixel_size),
+                    square_pixel_size,
+                    square_pixel_size,
+                ),
             )
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             direction = "y"
-            player_pos.x = snap_to_grid(player_pos.x)
-            speed = -GRID_SIZE_IN_PIXELS
+            speed = -1
         elif keys[pygame.K_s]:
             direction = "y"
-            player_pos.x = snap_to_grid(player_pos.x)
-            speed = GRID_SIZE_IN_PIXELS
+            speed = 1
         elif keys[pygame.K_a]:
             direction = "x"
-            player_pos.y = snap_to_grid(player_pos.y)
-            speed = -GRID_SIZE_IN_PIXELS
+            speed = -1
         elif keys[pygame.K_d]:
             direction = "x"
-            player_pos.y = snap_to_grid(player_pos.y)
-            speed = GRID_SIZE_IN_PIXELS
+            speed = 1
 
         if direction == "x":
-            player_pos.x += speed * delta / 1000
+            player_position["x"] += speed * delta / 1000
         elif direction == "y":
-            player_pos.y += speed * delta / 1000
+            player_position["y"] += speed * delta / 1000
 
         pygame.display.flip()
         delta = clock.tick()
