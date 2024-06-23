@@ -4,7 +4,7 @@ from random import randint
 
 DEBUG = True
 
-GRID_SIZE = 50
+GRID_SIZE = 10
 
 
 def snap(number, to):
@@ -32,6 +32,7 @@ def main():
 
     delta = 0
 
+    snake_length = 1
     snake_position = []
 
     apple_position = (
@@ -63,12 +64,33 @@ def main():
             ),
         )
 
-        snake_position.append(
-            (
-                math.floor(player_position["x"]),
-                math.floor(player_position["y"]),
+        if (
+            math.floor(player_position["x"]) == apple_position[0]
+            and math.floor(player_position["y"]) == apple_position[1]
+        ):
+            apple_position = (
+                random_square(),
+                random_square(),
             )
-        )
+            snake_length += 1
+
+        if len(snake_position) > snake_length:
+            snake_position.remove(snake_position[0])
+
+        if (
+            len(snake_position) == 0
+            or snake_position[len(snake_position) - 1][0]
+            != math.floor(player_position["x"])
+            or snake_position[len(snake_position) - 1][1]
+            != math.floor(player_position["y"])
+        ):
+            snake_position.append(
+                (
+                    math.floor(player_position["x"]),
+                    math.floor(player_position["y"]),
+                )
+            )
+
         for x, y in snake_position:
             pygame.draw.rect(
                 screen,
