@@ -91,10 +91,10 @@ def main():
                 )
             )
 
-        for x, y in snake_position:
+        for i, (x, y) in enumerate(snake_position):
             pygame.draw.rect(
                 screen,
-                (0, 255, 0),
+                (0, 100 + (i + 1) / len(snake_position) * 155, 0),
                 pygame.Rect(
                     x * square_pixel_size,
                     y * square_pixel_size,
@@ -105,7 +105,7 @@ def main():
         if DEBUG:
             pygame.draw.rect(
                 screen,
-                (0, 125, 0),
+                (20, 90, 50),
                 pygame.Rect(
                     (player_position["x"] * square_pixel_size),
                     (player_position["y"] * square_pixel_size),
