@@ -6,6 +6,7 @@ DEBUG = True
 
 GRID_SIZE = 10
 
+SNAKE_SPEED = 5
 
 def snap(number, to):
     return math.floor(number / to) * to
@@ -117,16 +118,16 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             direction = "y"
-            speed = -1
+            speed = -SNAKE_SPEED
         elif keys[pygame.K_s]:
             direction = "y"
-            speed = 1
+            speed = SNAKE_SPEED
         elif keys[pygame.K_a]:
             direction = "x"
-            speed = -1
+            speed = -SNAKE_SPEED
         elif keys[pygame.K_d]:
             direction = "x"
-            speed = 1
+            speed = SNAKE_SPEED
 
         if direction == "x":
             player_position["x"] += speed * delta / 1000
