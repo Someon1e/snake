@@ -14,7 +14,7 @@ def snap(number, to):
 
 
 def random_square():
-    return randint(0, GRID_SIZE)
+    return randint(0, GRID_SIZE - 1)
 
 
 def main():
