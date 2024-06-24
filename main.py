@@ -34,7 +34,7 @@ def main():
     delta = 0
 
     snake_length = 1
-    snake_position = []
+    snake_squares = []
 
     apple_position = (
         random_square(),
@@ -75,27 +75,27 @@ def main():
             )
             snake_length += 1
 
-        if len(snake_position) > snake_length:
-            snake_position.remove(snake_position[0])
+        if len(snake_squares) > snake_length:
+            snake_squares.remove(snake_squares[0])
 
         if (
-            len(snake_position) == 0
-            or snake_position[len(snake_position) - 1][0]
+            len(snake_squares) == 0
+            or snake_squares[len(snake_squares) - 1][0]
             != math.floor(player_position["x"])
-            or snake_position[len(snake_position) - 1][1]
+            or snake_squares[len(snake_squares) - 1][1]
             != math.floor(player_position["y"])
         ):
-            snake_position.append(
+            snake_squares.append(
                 (
                     math.floor(player_position["x"]),
                     math.floor(player_position["y"]),
                 )
             )
 
-        for i, (x, y) in enumerate(snake_position):
+        for i, (x, y) in enumerate(snake_squares):
             pygame.draw.rect(
                 screen,
-                (0, 100 + (i + 1) / len(snake_position) * 155, 0),
+                (0, 100 + (i + 1) / len(snake_squares) * 155, 0),
                 pygame.Rect(
                     x * square_pixel_size,
                     y * square_pixel_size,
