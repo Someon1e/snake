@@ -55,17 +55,6 @@ def main():
 
         screen.fill((20, 20, 20))
 
-        pygame.draw.rect(
-            screen,
-            (240, 0, 0),
-            pygame.Rect(
-                apple_position[0] * square_pixel_size,
-                apple_position[1] * square_pixel_size,
-                square_pixel_size,
-                square_pixel_size,
-            ),
-        )
-
         if (
             math.floor(player_position["x"]) == apple_position[0]
             and math.floor(player_position["y"]) == apple_position[1]
@@ -102,6 +91,18 @@ def main():
                     square_pixel_size,
                 ),
             )
+
+        pygame.draw.rect(
+            screen,
+            (240, 0, 0),
+            pygame.Rect(
+                apple_position[0] * square_pixel_size,
+                apple_position[1] * square_pixel_size,
+                square_pixel_size,
+                square_pixel_size,
+            ),
+        )
+
         if DEBUG:
             pygame.draw.rect(
                 screen,
