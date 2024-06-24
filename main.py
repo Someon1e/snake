@@ -8,6 +8,7 @@ GRID_SIZE = 10
 
 SNAKE_SPEED = 5
 
+
 def snap(number, to):
     return math.floor(number / to) * to
 
@@ -80,10 +81,8 @@ def main():
 
         if (
             len(snake_squares) == 0
-            or snake_squares[len(snake_squares) - 1][0]
-            != math.floor(player_position["x"])
-            or snake_squares[len(snake_squares) - 1][1]
-            != math.floor(player_position["y"])
+            or snake_squares[-1][0] != math.floor(player_position["x"])
+            or snake_squares[-1][1] != math.floor(player_position["y"])
         ):
             snake_squares.append(
                 (
