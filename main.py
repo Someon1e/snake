@@ -55,6 +55,9 @@ def main():
 
         screen.fill((20, 20, 20))
 
+        player_position["x"] = min(max(player_position["x"], 0), GRID_SIZE - 1)
+        player_position["y"] = min(max(player_position["y"], 0), GRID_SIZE - 1)
+
         if (
             math.floor(player_position["x"]) == apple_position[0]
             and math.floor(player_position["y"]) == apple_position[1]
@@ -116,6 +119,7 @@ def main():
             )
 
         keys = pygame.key.get_pressed()
+        # TODO: prioritise latest key press
         if keys[pygame.K_w]:
             direction = "y"
             speed = -SNAKE_SPEED
