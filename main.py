@@ -1,6 +1,7 @@
 import pygame
 import math
 from random import randint
+from collections import deque
 
 DEBUG = True
 
@@ -35,7 +36,7 @@ def main():
     delta = 0
 
     snake_length = 1
-    snake_squares = []
+    snake_squares = deque()
 
     apple_position = (
         random_square(),
@@ -68,7 +69,7 @@ def main():
             snake_length += 1
 
         if len(snake_squares) > snake_length:
-            snake_squares.remove(snake_squares[0])
+            snake_squares.popleft()
 
         if (
             len(snake_squares) == 0
