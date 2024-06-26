@@ -47,7 +47,6 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.VIDEORESIZE:
-                # There's some code to add back window content here.
                 screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 square_pixel_size = (
                     min(screen.get_height(), screen.get_width()) / GRID_SIZE
