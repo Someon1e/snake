@@ -10,8 +10,12 @@ GRID_SIZE = 10
 SNAKE_SPEED = 5
 
 
-def snap(number, to):
-    return math.floor(number / to) * to
+def snap(square, to):
+    return math.floor(square / to) * to
+
+
+def clamp_into_grid(square):
+    return min(max(square, 0), GRID_SIZE - 1)
 
 
 def random_square():
@@ -54,9 +58,6 @@ def main():
                 )
 
         screen.fill((20, 20, 20))
-
-        player_position["x"] = min(max(player_position["x"], 0), GRID_SIZE - 1)
-        player_position["y"] = min(max(player_position["y"], 0), GRID_SIZE - 1)
 
         if (
             math.floor(player_position["x"]) == apple_position[0]
@@ -134,9 +135,13 @@ def main():
             speed = SNAKE_SPEED
 
         if direction == "x":
-            player_position["x"] += speed * delta / 1000
+            player_position["x"] = clamp_into_grid(
+                player_position["x"] + (speed * delta / 1000)
+            )
         elif direction == "y":
-            player_position["y"] += speed * delta / 1000
+            player_position["y"] = clamp_into_grid(
+                player_position["y"] + (speed * delta / 1000)
+            )
 
         pygame.display.flip()
         delta = clock.tick()
