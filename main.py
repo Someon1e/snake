@@ -4,6 +4,7 @@ from collections import deque
 from enum import Enum
 from math import floor
 
+
 class Direction(Enum):
     X = 1
     Y = 2
@@ -30,23 +31,19 @@ def random_square():
 
 def main():
     pygame.init()
+
     screen = pygame.display.set_mode((15 * GRID_SIZE, 15 * GRID_SIZE), pygame.RESIZABLE)
     square_pixel_size = min(screen.get_size()) / GRID_SIZE
 
     def snap_to_grid(number):
         return snap(number, square_pixel_size)
 
-    clock = pygame.time.Clock()
-    running = True
     player_position = {Direction.X: GRID_SIZE / 2, Direction.Y: GRID_SIZE / 2}
-
     direction = ""
     speed = 0
 
-    delta = 0
-
-    snake_length = 1
     snake_squares = deque()
+    snake_length = 1
 
     apple_position = (
         random_square(),
@@ -69,6 +66,10 @@ def main():
         return background
 
     background = draw_back_ground()
+
+    clock = pygame.time.Clock()
+    delta = 0
+    running = True
 
     while running:
         for event in pygame.event.get():
