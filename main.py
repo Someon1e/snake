@@ -57,7 +57,17 @@ def main():
                     min(screen.get_height(), screen.get_width()) / GRID_SIZE
                 )
 
-        screen.fill((20, 20, 20))
+        screen.fill((0, 0, 70))
+        pygame.draw.rect(
+            screen,
+            (20, 20, 20),
+            pygame.Rect(
+                0,
+                0,
+                GRID_SIZE * square_pixel_size,
+                GRID_SIZE * square_pixel_size,
+            ),
+        )
 
         if (
             math.floor(player_position["x"]) == apple_position[0]
