@@ -2,6 +2,13 @@ import pygame
 import math
 from random import randint
 from collections import deque
+from enum import Enum
+
+
+class Direction(Enum):
+    X = 1
+    Y = 2
+
 
 DEBUG = True
 
@@ -25,14 +32,14 @@ def random_square():
 def main():
     pygame.init()
     screen = pygame.display.set_mode((15 * GRID_SIZE, 15 * GRID_SIZE), pygame.RESIZABLE)
-    square_pixel_size = min(screen.get_height(), screen.get_width()) / GRID_SIZE
+    square_pixel_size = min(screen.get_size()) / GRID_SIZE
 
     def snap_to_grid(number):
         return snap(number, square_pixel_size)
 
     clock = pygame.time.Clock()
     running = True
-    player_position = {"x": GRID_SIZE / 2, "y": GRID_SIZE / 2}
+    player_position = {Direction.X: GRID_SIZE / 2, Direction.Y: GRID_SIZE / 2}
 
     direction = ""
     speed = 0
@@ -74,8 +81,8 @@ def main():
                 background = draw_back_ground()
 
         if (
-            math.floor(player_position["x"]) == apple_position[0]
-            and math.floor(player_position["y"]) == apple_position[1]
+            math.floor(player_position[Direction.X]) == apple_position[0]
+            and math.floor(player_position[Direction.Y]) == apple_position[1]
         ):
             apple_position = (
                 random_square(),
@@ -88,13 +95,13 @@ def main():
 
         if (
             len(snake_squares) == 0
-            or snake_squares[-1][0] != math.floor(player_position["x"])
-            or snake_squares[-1][1] != math.floor(player_position["y"])
+            or snake_squares[-1][0] != math.floor(player_position[Direction.X])
+            or snake_squares[-1][1] != math.floor(player_position[Direction.Y])
         ):
             snake_squares.append(
                 (
-                    math.floor(player_position["x"]),
-                    math.floor(player_position["y"]),
+                    math.floor(player_position[Direction.X]),
+                    math.floor(player_position[Direction.Y]),
                 )
             )
 
@@ -128,8 +135,8 @@ def main():
                 screen,
                 (20, 90, 50),
                 pygame.Rect(
-                    (player_position["x"] * square_pixel_size),
-                    (player_position["y"] * square_pixel_size),
+                    (player_position[Direction.X] * square_pixel_size),
+                    (player_position[Direction.Y] * square_pixel_size),
                     square_pixel_size,
                     square_pixel_size,
                 ),
@@ -138,25 +145,25 @@ def main():
         keys = pygame.key.get_pressed()
         # TODO: prioritise latest key press
         if keys[pygame.K_w]:
-            direction = "y"
+            direction = Direction.Y
             speed = -SNAKE_SPEED
         elif keys[pygame.K_s]:
-            direction = "y"
+            direction = Direction.Y
             speed = SNAKE_SPEED
         elif keys[pygame.K_a]:
-            direction = "x"
+            direction = Direction.X
             speed = -SNAKE_SPEED
         elif keys[pygame.K_d]:
-            direction = "x"
+            direction = Direction.X
             speed = SNAKE_SPEED
 
-        if direction == "x":
-            player_position["x"] = clamp_into_grid(
-                player_position["x"] + (speed * delta / 1000)
+        if direction == Direction.X:
+            player_position[Direction.X] = clamp_into_grid(
+                player_position[Direction.X] + (speed * delta / 1000)
             )
-        elif direction == "y":
-            player_position["y"] = clamp_into_grid(
-                player_position["y"] + (speed * delta / 1000)
+        elif direction == Direction.Y:
+            player_position[Direction.Y] = clamp_into_grid(
+                player_position[Direction.Y] + (speed * delta / 1000)
             )
 
         pygame.display.flip()
