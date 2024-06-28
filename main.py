@@ -1,9 +1,8 @@
 import pygame
-import math
 from random import randint
 from collections import deque
 from enum import Enum
-
+from math import floor
 
 class Direction(Enum):
     X = 1
@@ -18,7 +17,7 @@ SNAKE_SPEED = 5
 
 
 def snap(square, to):
-    return math.floor(square / to) * to
+    return floor(square / to) * to
 
 
 def clamp_into_grid(square):
@@ -81,8 +80,8 @@ def main():
                 background = draw_back_ground()
 
         if (
-            math.floor(player_position[Direction.X]) == apple_position[0]
-            and math.floor(player_position[Direction.Y]) == apple_position[1]
+            floor(player_position[Direction.X]) == apple_position[0]
+            and floor(player_position[Direction.Y]) == apple_position[1]
         ):
             apple_position = (
                 random_square(),
@@ -95,13 +94,13 @@ def main():
 
         if (
             len(snake_squares) == 0
-            or snake_squares[-1][0] != math.floor(player_position[Direction.X])
-            or snake_squares[-1][1] != math.floor(player_position[Direction.Y])
+            or snake_squares[-1][0] != floor(player_position[Direction.X])
+            or snake_squares[-1][1] != floor(player_position[Direction.Y])
         ):
             snake_squares.append(
                 (
-                    math.floor(player_position[Direction.X]),
-                    math.floor(player_position[Direction.Y]),
+                    floor(player_position[Direction.X]),
+                    floor(player_position[Direction.Y]),
                 )
             )
 
