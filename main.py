@@ -47,19 +47,11 @@ def main():
         random_square(),
     )
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.VIDEORESIZE:
-                screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                square_pixel_size = (
-                    min(screen.get_height(), screen.get_width()) / GRID_SIZE
-                )
-
-        screen.fill((0, 0, 70))
+    def draw_back_ground():
+        background = pygame.Surface(screen.get_size())
+        background.fill((0, 0, 70))
         pygame.draw.rect(
-            screen,
+            background,
             (20, 20, 20),
             pygame.Rect(
                 0,
@@ -68,6 +60,18 @@ def main():
                 GRID_SIZE * square_pixel_size,
             ),
         )
+        return background
+
+    background = draw_back_ground()
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.VIDEORESIZE:
+                screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                square_pixel_size = min(screen.get_size()) / GRID_SIZE
+                background = draw_back_ground()
 
         if (
             math.floor(player_position["x"]) == apple_position[0]
@@ -93,6 +97,8 @@ def main():
                     math.floor(player_position["y"]),
                 )
             )
+
+        screen.blit(background, background.get_rect())
 
         for i, (x, y) in enumerate(snake_squares):
             pygame.draw.rect(
