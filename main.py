@@ -39,7 +39,7 @@ def main():
         return snap(number, square_pixel_size)
 
     player_position = {Direction.X: GRID_SIZE / 2, Direction.Y: GRID_SIZE / 2}
-    direction = ""
+    direction = None
     speed = 0
 
     snake_squares = deque()
@@ -145,17 +145,21 @@ def main():
         keys = pygame.key.get_pressed()
         # TODO: prioritise latest key press
         if keys[pygame.K_w]:
-            direction = Direction.Y
-            speed = -SNAKE_SPEED
+            if direction != Direction.Y:
+                direction = Direction.Y
+                speed = -SNAKE_SPEED
         elif keys[pygame.K_s]:
-            direction = Direction.Y
-            speed = SNAKE_SPEED
+            if direction != Direction.Y:
+                direction = Direction.Y
+                speed = SNAKE_SPEED
         elif keys[pygame.K_a]:
-            direction = Direction.X
-            speed = -SNAKE_SPEED
+            if direction != Direction.X:
+                direction = Direction.X
+                speed = -SNAKE_SPEED
         elif keys[pygame.K_d]:
-            direction = Direction.X
-            speed = SNAKE_SPEED
+            if direction != Direction.X:
+                direction = Direction.X
+                speed = SNAKE_SPEED
 
         if direction == Direction.X:
             player_position[Direction.X] = clamp_into_grid(
