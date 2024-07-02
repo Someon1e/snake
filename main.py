@@ -18,7 +18,7 @@ SNAKE_SPEED = 5
 
 
 def snap(square, to):
-    return floor(square / to) * to
+    return (square // to) * to
 
 
 def clamp_into_grid(square):
