@@ -161,13 +161,9 @@ def main():
                 direction = Direction.X
                 speed = SNAKE_SPEED
 
-        if direction == Direction.X:
-            player_position[Direction.X] = clamp_into_grid(
-                player_position[Direction.X] + (speed * delta / 1000)
-            )
-        elif direction == Direction.Y:
-            player_position[Direction.Y] = clamp_into_grid(
-                player_position[Direction.Y] + (speed * delta / 1000)
+        if direction:
+            player_position[direction] = clamp_into_grid(
+                player_position[direction] + (speed * delta / 1000)
             )
 
         pygame.display.flip()
