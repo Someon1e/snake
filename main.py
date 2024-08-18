@@ -29,6 +29,10 @@ def random_square():
     return randint(0, GRID_SIZE - 1)
 
 
+def lose():
+    raise Exception("TODO")
+
+
 def main():
     pygame.init()
 
@@ -165,6 +169,11 @@ def main():
             player_position[direction] = clamp_into_grid(
                 player_position[direction] + (speed * delta / 1000)
             )
+            if (
+                floor(player_position[Direction.X]),
+                floor(player_position[Direction.Y]),
+            ) in list(snake_squares)[:-1]:
+                lose()
 
         pygame.display.flip()
         delta = clock.tick()
