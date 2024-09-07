@@ -3,6 +3,7 @@ from random import randint
 from collections import deque
 from enum import Enum
 from math import floor
+from time import sleep
 
 
 class Direction(Enum):
@@ -29,12 +30,11 @@ def random_square():
     return randint(0, GRID_SIZE - 1)
 
 
-def lose():
-    raise Exception("TODO")
-
-
 def main():
     pygame.init()
+
+    font = pygame.font.Font("freesansbold.ttf", 32)
+    lose_text = font.render("You lose", True, (10, 10, 10))
 
     screen = pygame.display.set_mode((15 * GRID_SIZE, 15 * GRID_SIZE), pygame.RESIZABLE)
     square_pixel_size = min(screen.get_size()) / GRID_SIZE
@@ -69,7 +69,14 @@ def main():
         )
         return background
 
+    def draw_lose_screen():
+        background = pygame.Surface(screen.get_size())
+        background.fill((200, 0, 0))
+        background.blit(lose_text, lose_text.get_rect(center=screen.get_rect().center))
+        return background
+
     background = draw_back_ground()
+    lose_screen = draw_lose_screen()
 
     clock = pygame.time.Clock()
     delta = 0
@@ -83,6 +90,7 @@ def main():
                 screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 square_pixel_size = min(screen.get_size()) / GRID_SIZE
                 background = draw_back_ground()
+                lose_screen = draw_lose_screen()
 
         if (
             floor(player_position[Direction.X]) == apple_position[0]
@@ -173,7 +181,9 @@ def main():
                 floor(player_position[Direction.X]),
                 floor(player_position[Direction.Y]),
             ) in list(snake_squares)[:-1]:
-                lose()
+                screen.blit(lose_screen, lose_screen.get_rect())
+                sleep(1)
+                running = False
 
         pygame.display.flip()
         delta = clock.tick()
